@@ -6,16 +6,6 @@
              the Flutter engine draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
 
-        <string name="app_name">mostakbal.</string>
-
-        <!-- Replace "000000000000" with your Facebook App ID here. -->
-        <string name="facebook_app_id">801213825008804</string>
-
-        <!--
-          Replace "000000000000" with your Facebook App ID here.
-          **NOTE**: The scheme needs to start with `fb` and then your ID.
-        -->
-        <string name="fb_login_protocol_scheme">fb801213825008804</string>
 
 
     </style>

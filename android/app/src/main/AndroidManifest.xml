@@ -1,8 +1,12 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.mostakbal">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="mostakbal"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/launch_background">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -20,13 +24,10 @@
               android:resource="@style/NormalTheme"
               />
 
-            <meta-data android:name="com.facebook.sdk.ApplicationId"
-                android:value="@string/801213825008804"/>
+
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
