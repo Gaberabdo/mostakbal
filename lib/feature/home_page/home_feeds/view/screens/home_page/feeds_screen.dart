@@ -184,20 +184,33 @@ class FeedsScreen extends StatelessWidget {
         fontWeight: FontWeight.w700,
         fontColor: Colors.grey,
       ),
+      indicatorPadding: EdgeInsets.all(4),
       indicatorColor: ColorStyle().primaryColor,
       isScrollable: true,
       tabs: const [
-        Text(
-          'مقترحة لك',
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'مقترحة لك',
+          ),
         ),
-        Text(
-          'سياحة داخلية',
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'سياحة داخلية',
+          ),
         ),
-        Text(
-          'سياحة خارجية',
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'سياحة خارجية',
+          ),
         ),
-        Text(
-          'الحج و العمرة',
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'الحج و العمرة',
+          ),
         ),
       ],
     );

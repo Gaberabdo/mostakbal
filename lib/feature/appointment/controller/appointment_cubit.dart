@@ -13,40 +13,16 @@ class AppointmentCubit extends Cubit<AppointmentState> {
 
   AppointmentDataSource appointmentDataSource = AppointmentDataSource();
 
-
-
-
-
   ///todo add appointment
   Future<void> addAppointment({
-    required String fullNmae,
-    required String username,
-    required String birthdate,
-    required String email,
-    required String phone,
-    required int numOfAdults,
-    required int numOfYoung,
-    required DateTime endDate,
-    required DateTime startDate,
-    required String hotialImage,
-    required String hotialName,
+    required AppointmentModel model,
     required BuildContext context,
   }) async {
     emit(AddAppointmentLoading());
     try {
       appointmentDataSource.addAppointment(
-email: email,
-        phone: phone,
-        birthdate: birthdate,
-        fullNmae: fullNmae,
-        username: username,
-        hotialImage: hotialImage,
-        hotialName: hotialName,
-        numOfAdults: numOfAdults,
-        numOfYoung: numOfYoung,
-        endDate: endDate,
-        startDate: startDate,
-        context: context
+        model: model,
+        context: context,
       );
 
 //SettingCubit.get(context).homeDataSource.userDataModel!.email,
@@ -60,34 +36,14 @@ email: email,
 
   // add cancled appoinment
   Future<void> addCancledAppointment({
-    required String fullNmae,
-    required String username,
-    required String birthdate,
-    required String email,
-    required String phone,
-    required int numOfAdults,
-    required int numOfYoung,
-    required dynamic endDate,
-    required dynamic startDate,
-    required String hotialImage,
-    required String hotialName,
+    required AppointmentModel model,
     required BuildContext context,
   }) async {
     emit(AddCancledAppointmentLoading());
     try {
       appointmentDataSource.addCancledAppointment(
-          email: email,
-          phone: phone,
-          birthdate: birthdate,
-          fullNmae: fullNmae,
-          username: username,
-          hotialImage: hotialImage,
-          hotialName: hotialName,
-          numOfAdults: numOfAdults,
-          numOfYoung: numOfYoung,
-          endDate: endDate,
-          startDate: startDate,
-          context: context
+        model: model,
+        context: context,
       );
 
 //SettingCubit.get(context).homeDataSource.userDataModel!.email,
@@ -99,39 +55,17 @@ email: email,
     }
   }
 
-
   ///todo add complete
 
-
   Future<void> addCompleteAppointment({
-    required String fullNmae,
-    required String username,
-    required String birthdate,
-    required String email,
-    required String phone,
-    required int numOfAdults,
-    required int numOfYoung,
-    required dynamic endDate,
-    required dynamic startDate,
-    required String hotialImage,
-    required String hotialName,
+    required AppointmentModel model,
     required BuildContext context,
   }) async {
     emit(AddCompleteAppointmentLoading());
     try {
       appointmentDataSource.addCompleteAppointment(
-          email: email,
-          phone: phone,
-          birthdate: birthdate,
-          fullNmae: fullNmae,
-          username: username,
-          hotialImage: hotialImage,
-          hotialName: hotialName,
-          numOfAdults: numOfAdults,
-          numOfYoung: numOfYoung,
-          endDate: endDate,
-          startDate: startDate,
-          context: context
+        model: model,
+        context: context,
       );
 
 //SettingCubit.get(context).homeDataSource.userDataModel!.email,
@@ -142,7 +76,6 @@ email: email,
       print(s);
     }
   }
-
 
   ///todo get appointment
   Future<void> getAppointment(context) async {
@@ -159,25 +92,28 @@ email: email,
       emit(GetAppointmentError());
     }
   }
+
   ///todo get cancled appoinment
-  void getCancledAppointment(context)  {
+  void getCancledAppointment(context) {
     emit(GetAppointmentLoading());
 
-      appointmentDataSource.getCancledAppointment(context);
-          emit(GetAppointmentSuccess());
-          print('geeeeeeeeeeeeeeeeeeeeeeeeeeeeeet Cannnnnnnnnnnnnnncled sucessssssssss');
+    appointmentDataSource.getCancledAppointment(context);
+    emit(GetAppointmentSuccess());
+    print(
+        'geeeeeeeeeeeeeeeeeeeeeeeeeeeeeet Cannnnnnnnnnnnnnncled sucessssssssss');
 
-      emit(GetAppointmentError());
-    }
+    emit(GetAppointmentError());
+  }
 
   ///todo get complete appoinment
   Future<void> getCompleteAppointment(context) async {
     emit(GetAppointmentLoading());
     try {
       appointmentDataSource.getCompleteAppointment(context).then(
-            (value) {
+        (value) {
           emit(GetAppointmentSuccess());
-          print('geeeeeeeeeeeeeeeeeeeeeeeeeeeeeet completttttte sucessssssssss');
+          print(
+              'geeeeeeeeeeeeeeeeeeeeeeeeeeeeeet completttttte sucessssssssss');
         },
       );
     } catch (e, s) {
@@ -188,20 +124,15 @@ email: email,
 
   ///todo delete appointment
 
-  Future<void> deleteAppointment(
-  {
-    required String id
-}
-  ) async {
+  Future<void> deleteAppointment({required String id}) async {
     emit(DeleteAppointmentLoading());
     try {
-appointmentDataSource.deleteAppointment(id: id);
+      appointmentDataSource.deleteAppointment(id: id);
       emit(DeleteAppointmentSuccess());
-      print ('deeeeeeeeeeeeeeeeeeeeelte');
+      print('deeeeeeeeeeeeeeeeeeeeelte');
     } catch (e, s) {
       emit(DeleteAppointmentError());
       print(s);
     }
   }
-
 }

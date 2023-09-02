@@ -75,7 +75,7 @@ dependencies:
   syncfusion_flutter_sliders: ^22.2.11
   syncfusion_flutter_charts:
   flutter_credit_card: ^3.0.7
-
+  font_awesome_flutter:
 
 
 dev_dependencies:

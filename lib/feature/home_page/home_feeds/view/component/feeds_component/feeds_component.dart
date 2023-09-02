@@ -435,7 +435,7 @@ TabBarView buildTabBarView(HomeCubit cubit, context) {
 }
 
 
-InkWell buildSizedBoxTabForYou(TripModel model, context,HomeCubit cubit, int index) {
+Widget buildSizedBoxTabForYou(TripModel model, context,HomeCubit cubit, int index) {
   return InkWell(
     onTap: () {
       print(cubit.forYouIdModel[index]);
@@ -460,7 +460,7 @@ InkWell buildSizedBoxTabForYou(TripModel model, context,HomeCubit cubit, int ind
           borderSide: BorderSide.none,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
               Stack(
@@ -576,7 +576,7 @@ SizedBox buildSizedBoxTabHajjAndUmrahModel(BuildContext context,HajjAndUmrahMode
         borderSide: BorderSide.none,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
             Stack(
@@ -691,7 +691,7 @@ SizedBox buildSizedBoxForeignTourism(TourismModel model) {
         borderSide: BorderSide.none,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
             Stack(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:mostakbal/core/const/const.dart';
-1import 'package:mostakbal/feature/home_page/home_feeds/controller/home_cubit.dart';
+import 'package:mostakbal/feature/home_page/home_feeds/controller/home_cubit.dart';
 import 'package:mostakbal/feature/home_page/home_feeds/controller/home_state.dart';
 import 'package:mostakbal/feature/profile-feature/controller/setting_cubit.dart';
 
@@ -17,17 +17,25 @@ class HomeLayoutScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeCubit>(
-          create: (context) => HomeCubit()
+          create: (context) {
+            return HomeCubit()
             ..getBannar()
             ..getForYouData()
             ..getDomesticTourism()
             ..getForeignTourism()
             ..getHajjAndUmrah()
-            ..getOffer(),
+            ..getOffer();
+          },
         ),
-        BlocProvider(create: (context) => SettingCubit()..getUserData()),
         BlocProvider(
-          create: (context) => FavCubit()..getToFav(),
+          create: (context) {
+            return SettingCubit()..getUserData();
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            return FavCubit()..getToFav();
+          },
         ),
       ],
       child: BlocConsumer<HomeCubit, HomeState>(

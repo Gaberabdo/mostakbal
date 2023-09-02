@@ -19,10 +19,12 @@ class BookingScreen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppointmentCubit()
-        ..getAppointment(context)
-        ..getCancledAppointment(context)
-        ..getCompleteAppointment(context),
+      create: (context) {
+        return AppointmentCubit()
+          ..getAppointment(context)
+          ..getCancledAppointment(context)
+          ..getCompleteAppointment(context);
+      },
       child: BlocConsumer<AppointmentCubit, AppointmentState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -30,83 +32,92 @@ class BookingScreen1 extends StatelessWidget {
           return DefaultTabController(
             length: 3,
             child: Scaffold(
-                backgroundColor: Colors.white,
-                appBar: AppBar(
-                  title: Text(
-                    'الحجوزات',
-                    style: GoogleFonts.tajawal(
-                        fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  centerTitle: true,
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        RoutePage().navigateTo(context, SearchScreen());
-                      },
-                      icon: Icon(
-                        IconlyLight.search,
-                        color: ColorStyle().primaryColor,
-                      ),
-                    ),
-                  ],
-                  bottom: PreferredSize(
-                      preferredSize: Size.fromHeight(40),
-                      child: buildTabBarItem()),
+              appBar: AppBar(
+                title: Text(
+                  'الحجوزات',
+                  style: GoogleFonts.tajawal(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 ),
-                body: TabBarView(
-                  children: [
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return buildPaddingOtherOffers(
-                          context,
-                          cubit.appointmentDataSource.addAppoinment[index],
-                          cubit.appointmentDataSource.ids[index],
-                        );
-                      },
-                      itemCount:
-                          cubit.appointmentDataSource.addAppoinment.length,
+                centerTitle: true,
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    IconlyLight.arrow_right,
+                    color: Colors.black87,
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      IconlyLight.search,
+                      color: ColorStyle().primaryColor,
                     ),
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return bulidCompleteBokking(
-                            context,
-                            cubit.appointmentDataSource
-                                .addAppoinmentCompleted[index]);
-                      },
-                      itemCount: cubit
-                          .appointmentDataSource.addAppoinmentCompleted.length,
-                    ),
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return bulidRemoveBooking(
+                  ),
+                ],
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(70),
+                  child: buildTabBarItem(),
+                ),
+              ),
+              body: TabBarView(
+                children: [
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return buildPaddingOtherOffers(
+                        context: context,
+                        cubit: cubit,
+                        appointmentModel:
+                            cubit.appointmentDataSource.addAppoinment[index],
+                        index: index,
+                        state: state,
+                      );
+                    },
+                    itemCount: cubit.appointmentDataSource.addAppoinment.length,
+                  ),
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return buildCompleteBooking(
                           context,
                           cubit.appointmentDataSource
-                              .addAppoinmentCancled[index],
-                        );
-                      },
-                      itemCount: cubit
-                          .appointmentDataSource.addAppoinmentCancled.length,
-                    ),
-                  ],
-                )),
+                              .addAppoinmentCompleted[index]);
+                    },
+                    itemCount: cubit
+                        .appointmentDataSource.addAppoinmentCompleted.length,
+                  ),
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return buildRemoveBooking(
+                        context,
+                        cubit.appointmentDataSource.addAppoinmentCancled[index],
+                      );
+                    },
+                    itemCount:
+                        cubit.appointmentDataSource.addAppoinmentCancled.length,
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),
     );
   }
 
-  Padding buildPaddingOtherOffers(
-    BuildContext context,
-    AppointmentModel appointmentModel,
-    String id,
-  ) {
+  Padding buildPaddingOtherOffers({
+    required BuildContext context,
+    required AppointmentModel appointmentModel,
+    required AppointmentCubit cubit,
+    required AppointmentState state,
+    required int index,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 150,
+        height: 110,
         width: MediaQuery.sizeOf(context).width,
         child: Card(
           color: Colors.white,
@@ -114,7 +125,7 @@ class BookingScreen1 extends StatelessWidget {
           elevation: 1,
           surfaceTintColor: Colors.white,
           shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
           ),
           child: Padding(
@@ -122,69 +133,84 @@ class BookingScreen1 extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.network(
-                  appointmentModel.hotialImage,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    appointmentModel.hotialImage,
+                    width: 71,
+                    height: 88,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          appointmentModel.hotialName,
-                          style: FontStyle().textStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        appointmentModel.hotialName,
+                        style: FontStyle().textStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            IconlyLight.calendar,
+                            color: Colors.grey.shade600,
+                            size: 20,
+                          ),
+                          Text(
+                            appointmentModel.startDate as String,
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            ' - ',
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            appointmentModel.endDate,
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 23,
+                        width: 53,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFFAFAFA),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                            'مدفوع',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.tajawal(
+                              fontSize: 10,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              appointmentModel.startDate.substring(5, 11)
-                                  as String,
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              ' - ',
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              appointmentModel.endDate.substring(5, 11)
-                                  as String,
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            const Icon(
-                              IconlyLight.calendar,
-                              color: Colors.grey,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'مدفوع',
-                          style: GoogleFonts.tajawal(
-                              fontSize: 14, color: Colors.green),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
                 Column(
@@ -221,19 +247,12 @@ class BookingScreen1 extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         _showCustomDialog(
-                            context,
-                            id,
-                            appointmentModel.fullName,
-                            appointmentModel.userName,
-                            appointmentModel.birthdate,
-                            appointmentModel.email,
-                            appointmentModel.phone,
-                            appointmentModel.numOfAdults,
-                            appointmentModel.numOfYoung,
-                            appointmentModel.endDate,
-                            appointmentModel.startDate,
-                            appointmentModel.hotialImage,
-                            appointmentModel.hotialName);
+                          context: context,
+                          model: appointmentModel,
+                          cubit: cubit,
+                          state: state,
+                          index: index,
+                        );
                       },
                       child: Material(
                         borderRadius: BorderRadius.circular(8),
@@ -260,12 +279,12 @@ class BookingScreen1 extends StatelessWidget {
     );
   }
 
-  Padding bulidCompleteBokking(
+  Padding buildCompleteBooking(
       BuildContext context, AppointmentModel appointmentModel) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 150,
+        height: 110,
         width: MediaQuery.sizeOf(context).width,
         child: Card(
           color: Colors.white,
@@ -281,68 +300,83 @@ class BookingScreen1 extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.network(
-                  appointmentModel.hotialImage,
-                  width: 103,
-                  height: 127,
-                  fit: BoxFit.cover,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    appointmentModel.hotialImage,
+                    width: 71,
+                    height: 88,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          appointmentModel.hotialName,
-                          style: FontStyle().textStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        appointmentModel.hotialName,
+                        style: FontStyle().textStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            IconlyLight.calendar,
+                            color: Colors.grey.shade600,
+                            size: 20,
+                          ),
+                          Text(
+                            appointmentModel.startDate,
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            ' - ',
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            appointmentModel.endDate,
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 23,
+                        width: 93,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFFAFAFA),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'تم اكتمال الحجز',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.tajawal(
+                                fontSize: 10,
+                                color: Colors.green,
+                                fontWeight: FontWeight.w700),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              ('${appointmentModel.startDate}')
-                                  .substring(5, 11),
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              ' - ',
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              ('${appointmentModel.endDate}').substring(5, 11),
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            const Icon(
-                              IconlyLight.calendar,
-                              color: Colors.grey,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'تم اكتمال الحجز',
-                          style: GoogleFonts.tajawal(
-                              fontSize: 14, color: Colors.green),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
                 Column(
@@ -362,7 +396,7 @@ class BookingScreen1 extends StatelessWidget {
                         color: ColorStyle().primaryColor,
                         borderRadius: BorderRadius.circular(8),
                         child: Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
                             ' حجز مره اخري',
                             style: FontStyle().textStyle(
@@ -384,12 +418,12 @@ class BookingScreen1 extends StatelessWidget {
     );
   }
 
-  Padding bulidRemoveBooking(
+  Padding buildRemoveBooking(
       BuildContext context, AppointmentModel appointmentModel) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 150,
+        height: 110,
         width: MediaQuery.sizeOf(context).width,
         child: Card(
           color: Colors.white,
@@ -397,7 +431,7 @@ class BookingScreen1 extends StatelessWidget {
           elevation: 1,
           surfaceTintColor: Colors.white,
           shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none,
           ),
           child: Padding(
@@ -405,68 +439,82 @@ class BookingScreen1 extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.network(
-                  appointmentModel.hotialImage,
-                  width: 103,
-                  height: 127,
-                  fit: BoxFit.cover,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    appointmentModel.hotialImage,
+                    width: 71,
+                    height: 88,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          appointmentModel.hotialName,
-                          style: FontStyle().textStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        appointmentModel.hotialName,
+                        style: FontStyle().textStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            IconlyLight.calendar,
+                            color: Colors.grey.shade600,
+                            size: 20,
+                          ),
+                          Text(
+                            appointmentModel.startDate,
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            ' - ',
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            appointmentModel.endDate,
+                            style: FontStyle().textStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontColor: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 35,
+                        width: 110,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFFAFAFA),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'تم الغاء الحجز',
+                            style: GoogleFonts.tajawal(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              ('${appointmentModel.startDate}')
-                                  .substring(5, 11),
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              ' - ',
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              ('${appointmentModel.endDate}').substring(5, 11),
-                              style: FontStyle().textStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                fontColor: Colors.grey,
-                              ),
-                            ),
-                            const Icon(
-                              IconlyLight.calendar,
-                              color: Colors.grey,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'تم الغاء الحجز',
-                          style: GoogleFonts.tajawal(
-                              fontSize: 14, color: Colors.red),
-                        )
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Column(
@@ -486,7 +534,7 @@ class BookingScreen1 extends StatelessWidget {
                         color: ColorStyle().primaryColor,
                         borderRadius: BorderRadius.circular(8),
                         child: Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
                             ' اعادة الحجز',
                             style: FontStyle().textStyle(
@@ -511,185 +559,157 @@ class BookingScreen1 extends StatelessWidget {
   Widget buildTabBarItem() {
     return Container(
       decoration: BoxDecoration(
-          color: const Color.fromRGBO(250, 250, 250, 1),
-          borderRadius: BorderRadius.circular(8)),
-      child: TabBar(
-        labelColor: ColorStyle().primaryColor,
-        unselectedLabelColor: Color.fromRGBO(161, 165, 193, 1),
-        labelStyle: FontStyle().textStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          fontColor: ColorStyle().primaryColor,
+        borderRadius: BorderRadius.circular(24), // Creates border
+        color: Color.fromRGBO(250, 250, 250, 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: TabBar(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey,
+          labelStyle: FontStyle().textStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            fontColor: ColorStyle().primaryColor,
+          ),
+          unselectedLabelStyle: FontStyle().textStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            fontColor: Colors.white,
+          ),
+          indicator: BoxDecoration(
+            borderRadius: BorderRadius.circular(24), // Creates border
+            color: Color(
+              0xFF0D6EFD,
+            ),
+          ),
+          isScrollable: true,
+          tabs: [
+            Padding(
+              padding: EdgeInsets.all(6.0),
+              child: Text(
+                'الحالية',
+                style: GoogleFonts.tajawal(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(6.0),
+              child: Text(
+                'المكتملة',
+                style: GoogleFonts.tajawal(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(6.0),
+              child: Text(
+                'الملغية',
+                style: GoogleFonts.tajawal(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
         ),
-        unselectedLabelStyle: FontStyle().textStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          fontColor: Colors.grey,
-        ),
-        indicatorColor: ColorStyle().primaryColor,
-        isScrollable: true,
-        tabs: [
-          Padding(
-            padding: EdgeInsets.all(6.0),
-            child: Text(
-              'الحالية',
-              style: GoogleFonts.tajawal(
-                  fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              ' مكتملة',
-              style: GoogleFonts.tajawal(
-                  fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              ' ملغية',
-              style: GoogleFonts.tajawal(
-                  fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
       ),
     );
   }
 
-  void _showCustomDialog(
-    BuildContext context,
-    String id,
-    String fullNmae,
-    String username,
-    String birthdate,
-    String email,
-    String phone,
-    int numOfAdults,
-    int numOfYoung,
-    dynamic endDate,
-    dynamic startDate,
-    String hotialImage,
-    String hotialName,
-  ) {
+  void _showCustomDialog({
+    required BuildContext context,
+    required AppointmentModel model,
+    required AppointmentCubit cubit,
+    required AppointmentState state,
+    required int index,
+  }) {
+    if (state is AddCancledAppointmentSuccess) {
+      AppointmentCubit().deleteAppointment(
+        id: cubit.appointmentDataSource.ids[index],
+      );
+    }
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return BlocProvider(
-          create: (context) => AppointmentCubit(),
-          child: BlocConsumer<AppointmentCubit, AppointmentState>(
-            listener: (context, state) {
-              if (state is AddCancledAppointmentSuccess) {
-                AppointmentCubit().deleteAppointment(id: id);
-              }
-            },
-            builder: (context, state) {
-              var cubit=AppointmentCubit.get(context);
-
-              return Dialog(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-
-                      borderRadius: BorderRadius.circular(12)
+        return Dialog(
+          child: Container(
+            height: 369,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.network(
+                    'https://firebasestorage.googleapis.com/v0/b/squeak-chat.appspot.com/o/photo_6003435162874002505_m.jpg?alt=media&token=ad94418d-c7b6-4904-9eae-e1a769e62ae0',
+                    height: 150,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Image.network(
-                          'https://firebasestorage.googleapis.com/v0/b/squeak-chat.appspot.com/o/photo_6003435162874002505_m.jpg?alt=media&token=ad94418d-c7b6-4904-9eae-e1a769e62ae0',
-                          height: 150,
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Text(
-                          'هل تريد بالفعل إلغاء الحجز ؟',
-                          style: FontStyle().textStyle(
-                            fontSize: 14,
-                            fontColor: Colors.black,
-                            fontWeight: FontWeight.w700
+                  Text(
+                    'هل تريد بالفعل إلغاء الحجز ؟',
+                    style: FontStyle().textStyle(
+                        fontSize: 14,
+                        fontColor: Colors.black,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  const Divider(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color.fromRGBO(250, 250, 250, 1),
+                            shape: (RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            )),
+                          ),
+                          child: Text(
+                            'الغاء',
+                            style: FontStyle().textStyle(
+                              fontColor: ColorStyle().primaryColor,
+                            ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Divider(),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            cubit.addCancledAppointment(
+                              model: model,
+                              context: context,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
 
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color.fromRGBO(250, 250, 250, 1),
-                                  shape: (RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  )),
-                                ),
-                                child: Text(
-                                  'الغاء',
-                                  style: FontStyle().textStyle(
-                                    fontColor: ColorStyle().primaryColor,
-                                  ),
-                                ),
-                              ),
+                            backgroundColor: ColorStyle().primaryColor,
+                            shape: (RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            )),
+                          ),
+                          child: Text(
+                            'نعم, متابعة',
+                            style: FontStyle().textStyle(
+                              fontSize: 14,
+                              fontColor: Colors.white,
                             ),
-                            SizedBox(width: 4,),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  cubit.addCancledAppointment(fullNmae: '',
-                                      username: username,
-                                      birthdate: '',
-                                      email: email, phone: phone,
-                                      numOfAdults: numOfAdults,
-                                      numOfYoung: numOfYoung,
-                                      endDate: endDate,
-                                      startDate: startDate,
-                                      hotialImage: hotialImage,
-                                      hotialName: hotialName,
-                                      context: context);
-
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorStyle().primaryColor,
-                                  shape: (RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  )),
-                                ),
-                                child: Text(
-                                  'نعم, متابعة',
-                                  style: FontStyle().textStyle(
-                                    fontSize: 14,
-                                    fontColor: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
-              );
-            },
+                ],
+              ),
+            ),
           ),
         );
       },

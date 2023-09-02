@@ -61,10 +61,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Future<String> myMethod() async {
                 await Future.delayed(const Duration(seconds: 1)).then(
                   (value) {
-                    phoneController.text = cubit.settingDataSource.userDataModel!.phone;
-                    birthdayController.text = cubit.settingDataSource.userDataModel!.birthdate.substring(0, 10);
-                    nameController.text = cubit.settingDataSource.userDataModel!.fullName;
-                    emailcontroller.text = cubit.settingDataSource.userDataModel!.email;
+                    phoneController.text =
+                        cubit.settingDataSource.userDataModel!.phone;
+                    birthdayController.text = cubit
+                        .settingDataSource.userDataModel!.birthdate
+                        .substring(0, 10);
+                    nameController.text =
+                        cubit.settingDataSource.userDataModel!.fullName;
+                    emailcontroller.text =
+                        cubit.settingDataSource.userDataModel!.email;
                   },
                 ); // Simulating an asynchronous operation
                 return 'Hello, World!';
@@ -72,7 +77,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               myMethod();
             }
-
           },
           builder: (context, state) {
             var cubit = SettingCubit.get(context);
@@ -84,80 +88,92 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Stack(
-                        alignment: AlignmentDirectional.center,
-                        children: [
-                          Center(
-                            child: CircleAvatar(
-                              radius: 60.0,
-                              backgroundImage: (cubit.profileImage == null)
-                                  ? NetworkImage(
-                                      cubit.settingDataSource.userDataModel ==
-                                              null
-                                          ? 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?size=626&ext=jpg&uid=R78903714&ga=GA1.2.798062041.1678310296&semt=sph'
-                                          : cubit.settingDataSource
-                                              .userDataModel!.image,
-                                    )
-                                  : FileImage(cubit.profileImage!)
-                                      as ImageProvider,
+                      Center(
+                        child: CircleAvatar(
+                          radius: 45.0,
+                          backgroundImage: (cubit.profileImage == null)
+                              ? NetworkImage(
+                                  cubit.settingDataSource.userDataModel == null
+                                      ? 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?size=626&ext=jpg&uid=R78903714&ga=GA1.2.798062041.1678310296&semt=sph'
+                                      : cubit.settingDataSource.userDataModel!
+                                          .image,
+                                )
+                              : FileImage(cubit.profileImage!) as ImageProvider,
+                        ),
+                      ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            cubit.getProfileImage();
+                          },
+                          child: Text(
+                            'تغيير صورتك الشخصية',
+                            style: FontStyle().textStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              fontColor: ColorStyle().primaryColor,
                             ),
                           ),
-                          CircleAvatar(
-                            child: IconButton(
-                              onPressed: () {
-                                cubit.getProfileImage();
-                              },
-                              icon: const Icon(
-                                IconlyLight.camera,
-                                size: 26,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        ],
+                        ),
                       ),
-                      Spacer(),
                       Text(
                         'الاسم الكامل',
                         style: FontStyle().textStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
                           fontColor: Colors.black,
                         ),
                       ),
-                      TextFormWidget(
-                        icon: false,
-                        emailController: nameController,
-                        hintText: 'ادخل اسمك',
-                        prefixIcon: const Icon(
-                          IconlyLight.profile,
+                      Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(242, 242, 242, 1),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: nameController,
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(
+                                IconlyLight.profile,
+                                color: Colors.black,
+                              ),
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                            ),
+                          ),
                         ),
-                        validator: 'من فضلك ادخل الاسم',
-                        obscureText: false,
                       ),
-                      Spacer(),
                       Text(
                         'البريد الالكتروني',
-
                         style: FontStyle().textStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                          fontWeight:FontWeight.w700,
                           fontColor: Colors.black,
                         ),
                       ),
-                      TextFormWidget(
-                        enabled: false,
-
-                        icon: false,
-                        emailController: emailcontroller,
-                        hintText: 'البريد الاكتروني',
-                        prefixIcon: const Icon(
-                          IconlyLight.message,
+                      Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(242, 242, 242, 1),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: emailcontroller,
+                            enabled: false,
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(
+                                IconlyLight.message,
+                                color: Colors.black,
+                              ),
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                            ),
+                          ),
                         ),
-                        validator: 'من فضلك ادخل البريد الاكتروني',
-                        obscureText: false,
                       ),
-                      Spacer(),
                       Text(
                         'تاريخ الميلاد ',
                         style: FontStyle().textStyle(
@@ -171,89 +187,97 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         decoration: BoxDecoration(
                             color: const Color.fromRGBO(242, 242, 242, 1),
                             borderRadius: BorderRadius.circular(8)),
-                        child: TextFormField(
-                          cursorColor: Colors.grey,
-                          controller: birthdayController,
-                          keyboardType: TextInputType.datetime,
-                          onTap: () {
-                            FocusScope.of(context)
-                                .requestFocus(new FocusNode()); // Hide keyboard
-                            _selectDate(context);
-                          },
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'من فضلك ادخل تاريخ الميلاد';
-                            }
-                            return null;
-                          },
-                          keyboardAppearance: Brightness.dark,
-                          decoration: InputDecoration(
-                              hintText: 'ادخل تاريخ ميلادك ',
-                              labelStyle: const TextStyle(
-                                  fontSize: 20, color: Colors.grey),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  // cubit.changePasswordVisibility();
-                                },
-                                icon: const Icon(
-                                  IconlyLight.calendar,
-                                  color: Colors.grey,
-                                ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: birthdayController,
+                            enabled: false,
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(
+                                IconlyLight.calendar,
+                                color: Colors.black,
                               ),
-                              enabledBorder: InputBorder.none),
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                            ),
+                          ),
                         ),
                       ),
-                      Spacer(),
                       Text(
                         ' رقم الهاتف',
                         style: FontStyle().textStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
                           fontColor: Colors.black,
                         ),
                       ),
-                      TextFormWidget(
-                        icon: false,
-                        emailController: phoneController,
-                        hintText: 'ادخل رقم هاتفك',
-                        prefixIcon: const Icon(
-                          IconlyLight.call,
+                      Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(242, 242, 242, 1),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: phoneController,
+                            decoration: const InputDecoration(
+                              suffixIcon: Icon(
+                                IconlyLight.call,
+                                color: Colors.black,
+                              ),
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                            ),
+                          ),
                         ),
-                        validator: 'من فضلك ادخل رقم هاتفك',
-                        obscureText: false,
                       ),
-                      Spacer(),
+                      SizedBox(
+                        height: 40,
+                      ),
                       (state! is UpdateLoadingUserDataState)
-                          ? Center(
+                          ? const Center(
                               child: CircularProgressIndicator(),
                             )
                           : MyElevatedButton(
                               onPressed: () {
                                 if (cubit.profileImage == null) {
-                                  cubit.updateProfile(
+                                  cubit
+                                      .updateProfile(
                                     phone: phoneController.text,
                                     name: nameController.text,
                                     birthdate: birthdayController.text,
-                                  ).then((value) async{
-                                    await Future.delayed(const Duration(seconds: 2)).then((value) {
+                                  )
+                                      .then((value) async {
+                                    await Future.delayed(
+                                            const Duration(seconds: 2))
+                                        .then((value) {
                                       Navigator.pop(context);
                                     });
                                   });
                                 } else {
-                                  cubit.updateProfileImage(
+                                  cubit
+                                      .updateProfileImage(
                                     phone: phoneController.text,
                                     name: nameController.text,
                                     birthdate: birthdayController.text,
-                                  ).then((value) async{
+                                  )
+                                      .then((value) async {
                                     cubit.profileImage == null;
-                                   await Future.delayed(const Duration(seconds: 2)).then((value) {
+                                    await Future.delayed(
+                                            const Duration(seconds: 2))
+                                        .then((value) {
                                       Navigator.pop(context);
                                     });
                                   });
                                 }
                               },
-                              text: 'تـاكيد',
+                              text: 'تأكيد',
                             ),
+
+                      SizedBox(
+                        height: 40,
+                      ),
                     ],
                   ),
                 ));

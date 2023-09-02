@@ -10,204 +10,115 @@ import '../../profile-feature/controller/setting_cubit.dart';
 
 class AppointmentDataSource {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String uId=FirebaseAuth.instance.currentUser!.uid;
-
-
+  String uId = FirebaseAuth.instance.currentUser!.uid;
 
   ///todo add appointment
   Future<void> addAppointment({
-
-    required String hotialImage,
-    required String fullNmae,
-    required String username,
-    required String birthdate,
-    required String email,
-    required String phone,
-    required String hotialName,
-    required int numOfAdults,
-    required int numOfYoung,
-    required DateTime endDate,
-    required DateTime startDate,
+    required AppointmentModel model,
     required BuildContext context,
   }) async {
-    AppointmentModel appointmentModel = AppointmentModel(
-      fullName:fullNmae,
-      email:email,
-      phone:phone ,
-      hotialImage: hotialImage,
-      hotialName: hotialName,
-      birthdate:birthdate,
-      userName:username,
-      numOfAdults: numOfAdults,
-      numOfYoung: numOfYoung,
-      endDate: endDate.toString(),
-      startDate: startDate.toString(),
-    );
     firestore
         .collection('users')
         .doc(uId)
         .collection('appointment')
-        .add(appointmentModel.toMap());
+        .add(model.toMap());
   }
 
   //complet appointment
   Future<void> addCompleteAppointment({
-
-    required String hotialImage,
-    required String fullNmae,
-    required String username,
-    required String birthdate,
-    required String email,
-    required String phone,
-    required String hotialName,
-    required int numOfAdults,
-    required int numOfYoung,
-    required dynamic endDate,
-    required dynamic startDate,
+    required AppointmentModel model,
     required BuildContext context,
   }) async {
-    AppointmentModel appointmentModel = AppointmentModel(
-      fullName:fullNmae,
-      email:email,
-      phone:phone ,
-      hotialImage: hotialImage,
-      hotialName: hotialName,
-      birthdate:birthdate,
-      userName:username,
-      numOfAdults: numOfAdults,
-      numOfYoung: numOfYoung,
-      endDate: endDate.toString(),
-      startDate: startDate.toString(),
-    );
     firestore
         .collection('users')
         .doc(uId)
         .collection('compeleteappointment')
-        .add(appointmentModel.toMap());
+        .add(model.toMap());
   }
   //cansled appoinment
 
   Future<void> addCancledAppointment({
-
-    required String hotialImage,
-    required String fullNmae,
-    required String username,
-    required String birthdate,
-    required String email,
-    required String phone,
-    required String hotialName,
-    required int numOfAdults,
-    required int numOfYoung,
-    required dynamic endDate,
-    required dynamic startDate,
+    required AppointmentModel model,
     required BuildContext context,
   }) async {
-    AppointmentModel appointmentModel = AppointmentModel(
-      fullName:fullNmae,
-      email:email,
-      phone:phone ,
-      hotialImage: hotialImage,
-      hotialName: hotialName,
-      birthdate:birthdate,
-      userName:username,
-      numOfAdults: numOfAdults,
-      numOfYoung: numOfYoung,
-      endDate: endDate.toString(),
-      startDate: startDate.toString(),
-    );
     firestore
         .collection('users')
         .doc(uId)
         .collection('cancledappointment')
-        .add(appointmentModel.toMap());
+        .add(model.toMap());
   }
 
   ///todo get appointment
-  List<AppointmentModel> addAppoinment=[];
-  List<AppointmentModel> addAppoinmentCancled=[];
-  List<AppointmentModel> addAppoinmentCompleted=[];
-  List<String> ids=[];
+  List<AppointmentModel> addAppoinment = [];
+  List<AppointmentModel> addAppoinmentCancled = [];
+  List<AppointmentModel> addAppoinmentCompleted = [];
+  List<String> ids = [];
 
   Future<void> getAppointment(context) async {
     final result = await firestore
         .collection('users')
         .doc(uId)
         .collection('appointment')
-
         .snapshots()
         .listen((value) {
-          addAppoinment=[];
-          for(var element in value.docs){
-            addAppoinment.add(AppointmentModel.fromJson(element.data()));
-            ids.add(element.id);
-            print(element.data());
-          }
-
+      addAppoinment = [];
+      for (var element in value.docs) {
+        addAppoinment.add(AppointmentModel.fromJson(element.data()));
+        ids.add(element.id);
+        print(element.data());
+      }
     });
     print('reeeeeeeeeeeeeeeeeeeeeeslut');
     print(result);
-
-
   }
+
   Future<void> getCompleteAppointment(context) async {
     final result = await firestore
         .collection('users')
         .doc(uId)
         .collection('compeleteappointment')
-
         .snapshots()
         .listen((value) {
-          addAppoinmentCompleted=[];
-      for(var element in value.docs){
+      addAppoinmentCompleted = [];
+      for (var element in value.docs) {
         addAppoinmentCompleted.add(AppointmentModel.fromJson(element.data()));
         print('commmmmmmmmmmmmplete getttttttttttttttttt');
 
         print(element.data());
       }
-
     });
     print('reeeeeeeeeeeeeeeeeeeeeeslut');
     print(result);
-
-
   }
-  void getCancledAppointment(context)  {
-    final result =  firestore
+
+  void getCancledAppointment(context) {
+    final result = firestore
         .collection('users')
         .doc(uId)
         .collection('cancledappointment')
-
         .snapshots()
         .listen((value) {
-          addAppoinmentCancled=[];
-      for(var element in value.docs){
+      addAppoinmentCancled = [];
+      for (var element in value.docs) {
         addAppoinmentCancled.add(AppointmentModel.fromJson(element.data()));
 
         print(element.data());
       }
-
     });
     print('reeeeeeeeeeeeeeeeeeeeeeslut');
     print(result);
-
-
   }
 
-
-
-
   // delettttte
-  Future<void> deleteAppointment({
-    required String id
-}) async {
+  Future<void> deleteAppointment({required String id}) async {
     final result = await firestore
         .collection('users')
         .doc(uId)
-        .collection('appointment').doc(id).delete()
-        .then((value) {
-
-    }).catchError((error){});
-
+        .collection('appointment')
+        .doc(id)
+        .delete()
+        .then((value) {})
+        .catchError((error) {});
   }
 
   ///todo delete appointment
@@ -254,6 +165,4 @@ class AppointmentDataSource {
   //       .collection('appointment').doc(id)
   //       .update(appointmentModel.toMap());
   // }
-
-
 }

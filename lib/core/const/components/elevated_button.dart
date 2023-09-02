@@ -83,6 +83,10 @@ class _TextFormWidgetState extends State<TextFormWidget> {
         controller: widget.emailController,
         keyboardType: TextInputType.emailAddress,
         obscureText: widget.obscureText,
+        onFieldSubmitted: (value) {
+          FocusScope.of(context).nextFocus();
+
+        },
         validator: (String? value) {
           if (value!.isEmpty) {
             return widget.validator;
@@ -107,7 +111,8 @@ class _TextFormWidgetState extends State<TextFormWidget> {
                   )
                 : null,
             enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none),
+            errorBorder: InputBorder.none
+        ),
       ),
     );
   }

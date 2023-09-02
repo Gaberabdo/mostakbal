@@ -14,12 +14,11 @@ import '../../../../core/local/cache_helper.dart';
 import '../../../../main.dart';
 import '../../../home_page/home_feeds/layout_screen.dart';
 
-class SecondSigninScreen extends StatelessWidget {
-  SecondSigninScreen({Key? key}) : super(key: key);
+class SecondSignInScreen extends StatelessWidget {
+  SecondSignInScreen({Key? key}) : super(key: key);
   var passwordController = TextEditingController();
   var emailController = TextEditingController();
 
-  get selectedOption => null;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +100,7 @@ class SecondSigninScreen extends StatelessWidget {
                     ),
                     leading: Radio(
                       value: 1,
-                      groupValue: selectedOption,
+                      groupValue: false,
                       onChanged: (value) {
                         print("Button value: $value");
                       },
@@ -115,25 +114,25 @@ class SecondSigninScreen extends StatelessWidget {
                   ),
                   (state! is CreateUserUsingEmailLoadingState)
                       ? Center(
-                          child: CircularProgressIndicator(),
-                        )
+                    child: CircularProgressIndicator(),
+                  )
                       : MyElevatedButton(
-                          onPressed: () {
-                            if (emailController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('من فضلك ادخل داتا صحيحة'),
-                                ),
-                              );
-                            }
-                            cubit.loginWithEmail(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
-                            print('sdsdsd');
-                          },
-                          text: 'تـاكيد',
-                        ),
+                    onPressed: () {
+                      if (emailController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('من فضلك ادخل داتا صحيحة'),
+                          ),
+                        );
+                      }
+                      cubit.loginWithEmail(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
+                      print('sdsdsd');
+                    },
+                    text: 'تـاكيد',
+                  ),
                   TextButton(
                       onPressed: () {
                         // Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -155,7 +154,7 @@ class SecondSigninScreen extends StatelessWidget {
                     Expanded(
                       child: Container(
                           margin:
-                              const EdgeInsets.only(left: 10.0, right: 15.0),
+                          const EdgeInsets.only(left: 10.0, right: 15.0),
                           child: const Divider(
                             color: Colors.grey,
                             height: 50,
@@ -168,7 +167,7 @@ class SecondSigninScreen extends StatelessWidget {
                     Expanded(
                       child: Container(
                           margin:
-                              const EdgeInsets.only(left: 15.0, right: 10.0),
+                          const EdgeInsets.only(left: 15.0, right: 10.0),
                           child: const Divider(
                             color: Colors.grey,
                             height: 50,
@@ -216,8 +215,8 @@ class SecondSigninScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return RegisterScreen();
-                          }));
+                                return RegisterScreen();
+                              }));
                         },
                         child: const Text(
                           'انشاء حساب',

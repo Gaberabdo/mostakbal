@@ -199,17 +199,7 @@ class BookingDone extends StatelessWidget {
                   MyElevatedButton(
                     onPressed: () {
                       cubit.addCompleteAppointment(
-                        fullNmae: appointmentModel.fullName,
-                        username: appointmentModel.userName,
-                        birthdate: appointmentModel.birthdate,
-                        email: appointmentModel.email,
-                        phone: appointmentModel.phone,
-                        numOfAdults: appointmentModel.numOfAdults,
-                        numOfYoung: appointmentModel.numOfYoung,
-                        endDate: appointmentModel.endDate,
-                        startDate: appointmentModel.startDate,
-                        hotialImage: appointmentModel.hotialImage,
-                        hotialName: appointmentModel.hotialName,
+                        model: appointmentModel,
                         context: context,
                       );
                     },

@@ -6,6 +6,7 @@ import 'package:mostakbal/core/local/applocal.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'core/const/thema_data.dart';
 import 'core/local/cache_helper.dart';
 import 'core/observer/observer.dart';
 import 'feature/authentication/view/screens/first-rigster-screen.dart';
@@ -72,16 +73,11 @@ class MyApp extends StatelessWidget {
             Locale("ar", ""),
           ],
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primaryColor: ColorStyle().primaryColor,
-            scaffoldBackgroundColor: Colors.white,
-            colorScheme:
-                ColorScheme.fromSeed(seedColor: ColorStyle().primaryColor),
-            useMaterial3: true,
-          ),
+          theme: buildThemeData(),
           home: startWidget,
         );
       },
     );
   }
+
 }

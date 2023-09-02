@@ -154,104 +154,99 @@ class _FeedsDetailsState extends State<FeedsDetails> {
           : null,
       bottomSheet: isShow
           ? null
-          : Material(
-              elevation: 12,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(30),
-                topLeft: Radius.circular(30),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.minimize,
-                      ),
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.minimize,
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    MaterialButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        RoutePage().navigateTo(
-                          context,
-                          HotailScreen(
-                            itemId: widget.itemId,
-                            hotailName: widget.model.hotailName,
-                          ),
-                        );
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
                         children: [
-                          Row(
+                          Text(
+                            widget.model.flightName,
+                            style: FontStyle().textStyle(
+                                fontWeight: FontWeight.w700, fontSize: 24),
+                          ),
+                          Spacer(),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                widget.model.flightName,
+                                'ج2000',
+                                maxLines: 2,
                                 style: FontStyle().textStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 24),
+                                  fontSize: 20,
+                                  fontColor: ColorStyle().primaryColor,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                              Spacer(),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'ج2000',
-                                    maxLines: 2,
-                                    style: FontStyle().textStyle(
-                                      fontSize: 20,
-                                      fontColor: ColorStyle().primaryColor,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    '/فرد',
-                                    maxLines: 2,
-                                    style: FontStyle().textStyle(
-                                      fontSize: 20,
-                                      fontColor: Colors.grey,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                '/فرد',
+                                maxLines: 2,
+                                style: FontStyle().textStyle(
+                                  fontSize: 20,
+                                  fontColor: Colors.grey,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 14,
-                                backgroundImage: CachedNetworkImageProvider(
-                                    widget.model.image),
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Text(
-                                widget.model.hotailName,
-                                style: FontStyle().textStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    fontColor: Colors.grey),
-                              ),
-                            ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 14,
+                            backgroundImage:
+                                CachedNetworkImageProvider(widget.model.image),
                           ),
                           SizedBox(
-                            height: 25,
+                            width: 12,
                           ),
+                          Text(
+                            widget.model.hotailName,
+                            style: FontStyle().textStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontColor: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.ideographic,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.ideographic,
                             children: [
-                              const Icon(
-                                IconlyLight.location,
-                                color: Colors.grey,
-                                size: 22,
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 2),
+                                child: const Icon(
+                                  IconlyLight.location,
+                                  color: Colors.grey,
+                                  size: 22,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 3,
                               ),
                               Text(
                                 widget.model.location,
@@ -261,21 +256,18 @@ class _FeedsDetailsState extends State<FeedsDetails> {
                                   fontColor: Colors.grey,
                                 ),
                               ),
-                              SizedBox(
-                                width: 60,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: 5,
-                                ),
-                                child: Icon(
-                                  IconlyBold.star,
-                                  color: Colors.amber,
-                                  size: 16,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 6,
+                            ],
+                          ),
+
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.ideographic,
+                            children: [
+
+                              Icon(
+                                IconlyBold.star,
+                                color: Colors.amber,
+                                size: 16,
                               ),
                               Text(
                                 widget.model.rating.toString(),
@@ -285,90 +277,107 @@ class _FeedsDetailsState extends State<FeedsDetails> {
                                   fontColor: Colors.black,
                                 ),
                               ),
+                              SizedBox(
+                                width: 3,
+                              ),
+
+                              Text(
+                                '(${widget.model.listOfImage.length.toString()})',
+                                style: FontStyle().textStyle(
+                                    fontColor: ColorStyle().primaryColor,
+                                    fontSize: 16),
+                              ),
                             ],
+                          ),
+
+                          InkWell(
+                            onTap: () {},
+                            radius: 20,
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor:
+                                  const Color.fromRGBO(27, 30, 40, .2),
+                              child: Image.network(
+                                'https://firebasestorage.googleapis.com/v0/b/mostakbal-acd29.appspot.com/o/photo_6021441160427454024_m.jpg?alt=media&token=a793a658-027a-48c8-a4f2-06ca0db30389',
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 52,
-                      width: double.infinity,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return InkWell(
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  SizedBox(
+                    height: 52,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(12),
+                          onTap: () {
+                            print('object');
+                            setState(() {
+                              currentIndex = index;
+                            });
+                            print(currentIndex);
+                          },
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            onTap: () {
-                              print('object');
-                              setState(() {
-                                currentIndex = index;
-                              });
-                              print(currentIndex);
-                            },
-                            child: Material(
-                              shape: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide.none,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    widget.model.listOfImage[index],
-                                    height: 52,
-                                    width: 52,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
+                            child: Image.network(
+                              widget.model.listOfImage[index],
+                              height: 42,
+                              width: 52,
+                              fit: BoxFit.cover,
                             ),
-                          );
-                        },
-                        itemCount: widget.model.listOfImage.length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 10,
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      'عن الرحلة',
-                      style: FontStyle()
-                          .textStyle(fontWeight: FontWeight.w700, fontSize: 24),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      widget.model.details,
-                      maxLines: 3,
-                      style: FontStyle().textStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 10,
-                          fontColor: Colors.grey),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    MyElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-
-                          return BookingStep1Screen(
-                            hotialName:widget.model.hotailName ,
-                            hotialImage: widget.model.image,
-                          );
-                        }));
+                          ),
+                        );
                       },
-                      text: 'حجز الان',
+                      itemCount: widget.model.listOfImage.length,
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          width: 20,
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    'عن الرحلة',
+                    style: FontStyle()
+                        .textStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    widget.model.details,
+                    maxLines: 3,
+                    style: FontStyle().textStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 10,
+                        fontColor: Colors.grey),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  MyElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return BookingStep1Screen(
+                          hotialName: widget.model.hotailName,
+                          hotialImage: widget.model.image,
+                        );
+                      }));
+                    },
+                    text: 'حجز الان',
+                  ),
+                ],
               ),
             ),
     );
