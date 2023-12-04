@@ -68,35 +68,30 @@ class BookingScreen1 extends StatelessWidget {
                       return buildPaddingOtherOffers(
                         context: context,
                         cubit: cubit,
-                        appointmentModel:
-                            cubit.appointmentDataSource.addAppoinment[index],
+                        appointmentModel: cubit.addAppoinment[index],
                         index: index,
                         state: state,
                       );
                     },
-                    itemCount: cubit.appointmentDataSource.addAppoinment.length,
+                    itemCount: cubit.addAppoinment.length,
                   ),
                   ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return buildCompleteBooking(
-                          context,
-                          cubit.appointmentDataSource
-                              .addAppoinmentCompleted[index]);
+                          context, cubit.addAppoinmentCompleted[index]);
                     },
-                    itemCount: cubit
-                        .appointmentDataSource.addAppoinmentCompleted.length,
+                    itemCount: cubit.addAppoinmentCompleted.length,
                   ),
                   ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return buildRemoveBooking(
                         context,
-                        cubit.appointmentDataSource.addAppoinmentCancled[index],
+                        cubit.addAppoinmentCancled[index],
                       );
                     },
-                    itemCount:
-                        cubit.appointmentDataSource.addAppoinmentCancled.length,
+                    itemCount: cubit.addAppoinmentCancled.length,
                   ),
                 ],
               ),
@@ -690,7 +685,6 @@ class BookingScreen1 extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
-
                             backgroundColor: ColorStyle().primaryColor,
                             shape: (RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

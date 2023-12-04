@@ -89,13 +89,13 @@ class HomeDataSource {
 
 
   List<TourismModel> offerModel = [];
-  List<String> offerModelId =[];
+  // List<String> offerModelId =[];
   ///todo get getOffer
   Future<void> getOffer() async {
     fireStore.collection('offers').get().then(
           (value) {
         for (var element in value.docs) {
-          offerModelId.add(element.id);
+          // offerModelId.add(element.id);
           offerModel.add(TourismModel.fromJson(element.data()));
           print(offerModel);
         }

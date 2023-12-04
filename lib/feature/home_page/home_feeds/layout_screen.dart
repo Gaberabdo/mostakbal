@@ -1,13 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconly/iconly.dart';
 import 'package:mostakbal/core/const/const.dart';
+import 'package:mostakbal/core/local/cache_helper.dart';
+import 'package:mostakbal/feature/authentication/controller/auth_cubit.dart';
 import 'package:mostakbal/feature/home_page/home_feeds/controller/home_cubit.dart';
 import 'package:mostakbal/feature/home_page/home_feeds/controller/home_state.dart';
 import 'package:mostakbal/feature/profile-feature/controller/setting_cubit.dart';
 
+import '../../authentication/data_source/auth_data_source.dart';
 import '../../fav-feature/controller/fav_cubit.dart';
+import '../../profile-feature/data_source/setting_data_source.dart';
 
 class HomeLayoutScreen extends StatelessWidget {
   const HomeLayoutScreen({Key? key}) : super(key: key);
@@ -19,12 +26,12 @@ class HomeLayoutScreen extends StatelessWidget {
         BlocProvider<HomeCubit>(
           create: (context) {
             return HomeCubit()
-            ..getBannar()
-            ..getForYouData()
-            ..getDomesticTourism()
-            ..getForeignTourism()
-            ..getHajjAndUmrah()
-            ..getOffer();
+              ..getBannar()
+              ..getForYouData()
+              ..getDomesticTourism()
+              ..getForeignTourism()
+              ..getHajjAndUmrah()
+              ..getOffer();
           },
         ),
         BlocProvider(
@@ -48,11 +55,78 @@ class HomeLayoutScreen extends StatelessWidget {
           return Scaffold(
             backgroundColor: Colors.white,
             bottomNavigationBar: buildCurvedNavigationBar(cubit),
-            body: (settingCubit.settingDataSource.userDataModel != null)
-                ? cubit.screens[cubit.currentIndex]
-                : const Center(
-                    child: LinearProgressIndicator(),
-                  ),
+            appBar: (SettingCubit.get(context).userDataModel != null)
+                ? SettingCubit.get(context).userDataModel!.phoneVir == false
+                    ? AppBar(
+                        bottom: PreferredSize(
+                          preferredSize: const Size.fromHeight(10),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: 40,
+                              child: Material(
+                                color: Colors.yellow.shade50,
+                                borderRadius: BorderRadius.circular(12),
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(12),
+                                  onTap: () {
+                                    SettingCubit.get(context).verifyEmail().then(
+                                      (value) {
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(CacheHelper.getData(key: 'uId'))
+                                            .update(
+                                          {
+                                            "phoneVir": true,
+                                          },
+                                        ).then(
+                                          (value) {
+                                            Fluttertoast.showToast(
+                                              msg: "تم تفعيل الايميل",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0,
+                                            );
+
+                                            Navigator.pushAndRemoveUntil(
+                                                context, MaterialPageRoute(
+                                              builder: (context) {
+                                                return HomeLayoutScreen();
+                                              },
+                                            ), (route) => false);
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Icon(IconlyLight.danger,
+                                          color: Colors.black),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "pleas Confirm Email",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      Spacer(),
+                                      Icon(Icons.phone_android,
+                                          color: Colors.black),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : null
+                : null,
+            body:cubit.screens[cubit.currentIndex],
           );
         },
       ),

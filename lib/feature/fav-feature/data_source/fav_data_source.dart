@@ -28,23 +28,22 @@ class FavDataSource {
         .delete();
   }
 
-  List<TourismModel> model = [];
-  List<String> favId = [];
+
 
   ///todo get fave
   Future<void> getToFav() async {
-    fireStore
-        .collection('users')
-        .doc(uId)
-        .collection('favUser')
-        .snapshots()
-        .listen((value) {
-      model.clear();
-      for (var e in value.docs) {
-        model!.add(TourismModel.fromJson(e.data()));
-        print(e.data());
-        favId.add(e.id);
-      }
-    });
+    // fireStore
+    //     .collection('users')
+    //     .doc(uId)
+    //     .collection('favUser')
+    //     .snapshots()
+    //     .listen((value) {
+    //   model.clear();
+    //   for (var e in value.docs) {
+    //     model!.add(TourismModel.fromJson(e.data()));
+    //     print(e.data());
+    //     favId.add(e.id);
+    //   }
+    // });
   }
 }

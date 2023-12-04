@@ -60,7 +60,7 @@ class FirstRegisterScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12)),
                         child: MaterialButton(
                           onPressed: () async {
-                            cubit.signInWithGoogle();
+                            // cubit.signInWithGoogle();
                           },
                           child: Row(
                             children: [
@@ -88,7 +88,7 @@ class FirstRegisterScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12)),
                         child: MaterialButton(
                           onPressed: () async {
-                            cubit.loginWithFacebook();
+                            // cubit.loginWithFacebook();
                           },
                           child: const Row(
                             children: [

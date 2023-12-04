@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mostakbal/core/const/const.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
@@ -15,9 +16,11 @@ import '../../../../core/const/components/elevated_button.dart';
 import '../../../../main.dart';
 
 class RegisterScreen2 extends StatefulWidget {
-  RegisterScreen2(
-      {Key? key, required this.password, required this.emailcontroller})
-      : super(key: key);
+  RegisterScreen2({
+    Key? key,
+    required this.password,
+    required this.emailcontroller,
+  }) : super(key: key);
   String password;
   TextEditingController emailcontroller;
   @override
@@ -76,12 +79,21 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
               context,
               HomeLayoutScreen(),
             );
+
+            Fluttertoast.showToast(
+              msg: "تم تسجيل الدخول بنجاح",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
           }
         },
         builder: (context, state) {
           var cubit = AuthCubit.get(context);
           return Scaffold(
-            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               centerTitle: true,
               title: Text(
@@ -93,151 +105,187 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                 ),
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Center(
-                        child: CircleAvatar(
-                          radius: 70.0,
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          child: const CircleAvatar(
-                              radius: 65.0,
-                              backgroundImage: NetworkImage(
-                                  'https://img.freepik.com/premium-vector/arab-man-side-view-profile-guy-with-black-curly-hair-scarf-stands-sideways-looks-forward_206127-72.jpg?size=626&ext=jpg&ga=GA1.2.710542837.1687889462&semt=sph')),
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            IconlyLight.camera,
-                            size: 26,
-                            color: Colors.white,
-                          ))
-                    ],
-                  ),
-                  Text(
-                    'الاسم الكامل',
-                    style: FontStyle().textStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      fontColor: Colors.black,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  TextFormWidget(
-                    icon: false,
-                    emailController: nameController,
-                    hintText: 'ادخل اسمك',
-                    prefixIcon: const Icon(
-                      IconlyLight.profile,
-                    ),
-                    validator: 'من فضلك ادخل الاسم',
-                    obscureText: false,
-                  ),
-                  Text(
-                    'البريد الالكتروني',
-                    style: FontStyle().textStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      fontColor: Colors.black,
-                    ),
-                  ),
-                  TextFormWidget(
-                    icon: false,
-                    emailController: emailcontroller,
-                    hintText: 'البريد الاكتروني',
-                    prefixIcon: const Icon(
-                      IconlyLight.message,
-                    ),
-                    validator: 'من فضلك ادخل البريد الاكتروني',
-                    obscureText: false,
-                  ),
-                  Text(
-                    'تاريخ الميلاد ',
-                    style: FontStyle().textStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      fontColor: Colors.black,
-                    ),
-                  ),
-                  Container(
-                    height: 48,
-                    decoration: BoxDecoration(
-                        color: const Color.fromRGBO(242, 242, 242, 1),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: TextFormField(
-                      cursorColor: Colors.grey,
-                      controller: birthdayController,
-                      keyboardType: TextInputType.datetime,
-                      onTap: () {
-                        FocusScope.of(context)
-                            .requestFocus(new FocusNode()); // Hide keyboard
-                        _selectDate(context);
-                      },
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'من فضلك ادخل تاريخ الميلاد';
-                        }
-                        return null;
-                      },
-                      keyboardAppearance: Brightness.dark,
-                      decoration: InputDecoration(
-                          hintText: 'ادخل تاريخ ميلادك ',
-                          labelStyle:
-                              const TextStyle(fontSize: 20, color: Colors.grey),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              // cubit.changePasswordVisibility();
-                            },
-                            icon: const Icon(
-                              IconlyLight.calendar,
-                              color: Colors.grey,
-                            ),
+                    Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Center(
+                          child: CircleAvatar(
+                            radius: 70.0,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            child: const CircleAvatar(
+                                radius: 65.0,
+                                backgroundImage: NetworkImage(
+                                    'https://img.freepik.com/premium-vector/arab-man-side-view-profile-guy-with-black-curly-hair-scarf-stands-sideways-looks-forward_206127-72.jpg?size=626&ext=jpg&ga=GA1.2.710542837.1687889462&semt=sph')),
                           ),
-                          enabledBorder: InputBorder.none),
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              IconlyLight.camera,
+                              size: 26,
+                              color: Colors.white,
+                            ))
+                      ],
                     ),
-                  ),
-                  Text(
-                    ' رقم الهاتف',
-                    style: FontStyle().textStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      fontColor: Colors.black,
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  TextFormWidget(
-                    icon: false,
-                    emailController: phoneController,
-                    hintText: 'ادخل رقم هاتفك',
-                    prefixIcon: const Icon(
-                      IconlyLight.call,
+                    Text(
+                      'الاسم الكامل',
+                      style: FontStyle().textStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        fontColor: Colors.black,
+                      ),
                     ),
-                    validator: 'من فضلك ادخل رقم هاتفك',
-                    obscureText: false,
-                  ),
-                  MyElevatedButton(
-                    onPressed: () {
-                      cubit.userRegister(
-                        email: emailcontroller.text,
-                        username: nameController.text,
-                        phone: phoneController.text,
-                        password: widget.password,
-                        fullName: nameController.text,
-                        birthdate: _selectedDate.toString(),
-                      );
-                    },
-                    text: 'متابعة',
-                  ),
-                ],
+                    TextFormWidget(
+                      icon: false,
+                      emailController: nameController,
+                      hintText: 'ادخل اسمك',
+                      prefixIcon: const Icon(
+                        IconlyLight.profile,
+                      ),
+                      validator: 'من فضلك ادخل الاسم',
+                      obscureText: false,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'البريد الالكتروني',
+                      style: FontStyle().textStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        fontColor: Colors.black,
+                      ),
+                    ),
+                    TextFormWidget(
+                      icon: false,
+                      emailController: emailcontroller,
+                      hintText: 'البريد الاكتروني',
+                      prefixIcon: const Icon(
+                        IconlyLight.message,
+                      ),
+                      validator: 'من فضلك ادخل البريد الاكتروني',
+                      obscureText: false,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'تاريخ الميلاد ',
+                      style: FontStyle().textStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        fontColor: Colors.black,
+                      ),
+                    ),
+                    Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                          color: const Color.fromRGBO(242, 242, 242, 1),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: TextFormField(
+                        cursorColor: Colors.grey,
+                        controller: birthdayController,
+                        keyboardType: TextInputType.datetime,
+                        onTap: () {
+                          FocusScope.of(context)
+                              .requestFocus(new FocusNode()); // Hide keyboard
+                          _selectDate(context);
+                        },
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'من فضلك ادخل تاريخ الميلاد';
+                          }
+                          return null;
+                        },
+                        keyboardAppearance: Brightness.dark,
+                        decoration: InputDecoration(
+                            hintText: 'ادخل تاريخ ميلادك ',
+                            labelStyle: const TextStyle(
+                                fontSize: 20, color: Colors.grey),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                // cubit.changePasswordVisibility();
+                              },
+                              icon: const Icon(
+                                IconlyLight.calendar,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            enabledBorder: InputBorder.none),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      ' رقم الهاتف',
+                      style: FontStyle().textStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        fontColor: Colors.black,
+                      ),
+                    ),
+                    TextFormWidget(
+                      icon: false,
+                      emailController: phoneController,
+                      hintText: 'ادخل رقم هاتفك',
+                      prefixIcon: const Icon(
+                        IconlyLight.call,
+                      ),
+                      validator: 'من فضلك ادخل رقم هاتفك',
+                      obscureText: false,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    if (state is CreateUserErrorState)
+                      Text(
+                        state.e,
+                        style: FontStyle()
+                            .textStyle(fontSize: 14, fontColor: Colors.red),
+                      ),
+                    MyElevatedButton(
+                      onPressed: () {
+                        if (nameController.text.isEmpty || phoneController.text.isEmpty ||_selectedDate == null) {
+                          Fluttertoast.showToast(
+                            msg: nameController.text.isEmpty
+                                ? "من فضلك ادخل اسمك" : phoneController.text.isEmpty? "من فضلك ادخل رقم هاتف"
+                                : "من فضلك ادخل تاريخ ميلادك",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        } else {
+                          cubit.userRegister(
+                            email: emailcontroller.text,
+                            username: nameController.text,
+                            phone: phoneController.text,
+                            password: widget.password,
+                            fullName: nameController.text,
+                            birthdate: _selectedDate.toString(),
+                          );
+                        }
+                      },
+                      text: 'متابعة',
+                    ),
+                  ],
+                ),
               ),
             ),
           );

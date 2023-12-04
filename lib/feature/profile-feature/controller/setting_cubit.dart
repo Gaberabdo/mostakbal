@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mostakbal/core/local/cache_helper.dart';
 import 'package:mostakbal/feature/profile-feature/controller/setting_state.dart';
 
 import '../../../core/models/auth_model/login_model.dart';
@@ -14,14 +17,28 @@ class SettingCubit extends Cubit<SettingState> {
 
   SettingDataSource settingDataSource = SettingDataSource();
 
+  UserDataModel? userDataModel;
+  FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
   ///todo get User date
   Future<void> getUserData() async {
     emit(LoadingGetUserdata());
     try {
-      settingDataSource.getUserData().then((value) {
-        emit(SuccessGetUserdata());
-        print('--------------${settingDataSource.userDataModel}');
-      });
+      fireStore
+          .collection('users')
+          .doc(
+            CacheHelper.getData(
+              key: 'uId',
+            ),
+          )
+          .snapshots()
+          .listen(
+        (event) {
+          userDataModel = UserDataModel.fromJson(event.data()!);
+          print('*****$userDataModel****');
+          emit(SuccessGetUserdata());
+        },
+      );
     } catch (e, s) {
       emit(ErrorGetUserdata());
       print(s);
@@ -85,5 +102,17 @@ class SettingCubit extends Cubit<SettingState> {
 
       print(s);
     }
+  }
+
+  Future<void> verifyEmail() async {
+    emit(VerifyEmailLoadingState());
+    await FirebaseAuth.instance.currentUser!
+        .sendEmailVerification()
+        .then((value) {
+      emit(VerifyEmailSuccessState());
+    }).catchError((onError) {
+      print(onError.message.toString());
+      emit(VerifyEmailErrorState(onError.message.toString()));
+    });
   }
 }

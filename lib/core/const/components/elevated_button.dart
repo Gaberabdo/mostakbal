@@ -27,11 +27,9 @@ class MyElevatedButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: primary ?? ColorStyle().primaryColor,
-          shape: (
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            )
-          ),
+          shape: (RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          )),
         ),
         child: Text(
           text,
@@ -45,16 +43,17 @@ class MyElevatedButton extends StatelessWidget {
 }
 
 class TextFormWidget extends StatefulWidget {
-  TextFormWidget(
-      {super.key,
-      required this.emailController,
-      required this.prefixIcon,
-      required this.hintText,
-      required this.validator,
-      required this.obscureText,
-      required this.icon,
-      this.suffixIcon,
-      this.enabled});
+  TextFormWidget({
+    super.key,
+    required this.emailController,
+    required this.prefixIcon,
+    required this.hintText,
+    required this.validator,
+    required this.obscureText,
+    required this.icon,
+    this.suffixIcon,
+    this.enabled,
+  });
 
   final TextEditingController emailController;
   final Widget prefixIcon;
@@ -85,7 +84,6 @@ class _TextFormWidgetState extends State<TextFormWidget> {
         obscureText: widget.obscureText,
         onFieldSubmitted: (value) {
           FocusScope.of(context).nextFocus();
-
         },
         validator: (String? value) {
           if (value!.isEmpty) {
@@ -93,25 +91,24 @@ class _TextFormWidgetState extends State<TextFormWidget> {
           }
           return null;
         },
-        keyboardAppearance: Brightness.dark,
         decoration: InputDecoration(
-            hintText: widget.hintText,
-            labelStyle: const TextStyle(fontSize: 20, color: Colors.grey),
-            prefixIcon: widget.prefixIcon,
-            suffixIcon: widget.icon
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        widget.obscureText = !widget.obscureText;
-                      });
-                    },
-                    icon: widget.obscureText
-                        ? const Icon(Icons.remove_red_eye)
-                        : const Icon(Icons.visibility_off_outlined),
-                  )
-                : null,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none
+          hintText: widget.hintText,
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: widget.icon
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.obscureText = !widget.obscureText;
+                    });
+                  },
+                  icon: widget.obscureText
+                      ? const Icon(Icons.remove_red_eye)
+                      : const Icon(Icons.visibility_off_outlined),
+                )
+              : null,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+
         ),
       ),
     );

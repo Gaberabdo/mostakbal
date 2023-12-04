@@ -272,7 +272,7 @@ Padding buildPaddingWatch(BuildContext context, TourismModel model, int index) {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        FavCubit.get(context).addToFav(model: model.toMap(),id: HomeCubit.get(context).homeDataSource.offerModelId[index]);
+                        FavCubit.get(context).addToFav(model: model.toMap(),id: HomeCubit.get(context).offerModelId[index]);
 
                       },
                       icon: Icon(
@@ -481,8 +481,8 @@ Widget buildSizedBoxTabForYou(TripModel model, context,HomeCubit cubit, int inde
                       backgroundColor: const Color.fromRGBO(27, 30, 40, .2),
                       child: IconButton(
                         onPressed: () {
-                          FavCubit.get(context).favDataSource.model.clear();
-                          FavCubit.get(context).addToFav(model: model.toMap(),id: HomeCubit.get(context).homeDataSource.forYouIdModel[index]);
+                          FavCubit.get(context).model.clear();
+                          FavCubit.get(context).addToFav(model: model.toMap(),id: HomeCubit.get(context).forYouIdModel[index]);
 
                         },
                         icon: const Icon(
@@ -598,7 +598,7 @@ SizedBox buildSizedBoxTabHajjAndUmrahModel(BuildContext context,HajjAndUmrahMode
                     child: IconButton(
                       onPressed: () {
 
-                        FavCubit.get(context).addToFav(model: model.toMap(),id: HomeCubit.get(context).homeDataSource.forYouIdModel[index]);
+                        FavCubit.get(context).addToFav(model: model.toMap(),id: HomeCubit.get(context).forYouIdModel[index]);
 
                       },
                       icon: const Icon(

@@ -61,15 +61,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Future<String> myMethod() async {
                 await Future.delayed(const Duration(seconds: 1)).then(
                   (value) {
-                    phoneController.text =
-                        cubit.settingDataSource.userDataModel!.phone;
-                    birthdayController.text = cubit
-                        .settingDataSource.userDataModel!.birthdate
-                        .substring(0, 10);
-                    nameController.text =
-                        cubit.settingDataSource.userDataModel!.fullName;
-                    emailcontroller.text =
-                        cubit.settingDataSource.userDataModel!.email;
+                    phoneController.text = cubit.userDataModel!.phone;
+                    birthdayController.text = cubit.userDataModel!.birthdate.substring(0, 10);
+                    nameController.text = cubit.userDataModel!.fullName;
+                    emailcontroller.text = cubit.userDataModel!.email;
                   },
                 ); // Simulating an asynchronous operation
                 return 'Hello, World!';
@@ -93,9 +88,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           radius: 45.0,
                           backgroundImage: (cubit.profileImage == null)
                               ? NetworkImage(
-                                  cubit.settingDataSource.userDataModel == null
+                                  cubit.userDataModel == null
                                       ? 'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?size=626&ext=jpg&uid=R78903714&ga=GA1.2.798062041.1678310296&semt=sph'
-                                      : cubit.settingDataSource.userDataModel!
+                                      : cubit.userDataModel!
                                           .image,
                                 )
                               : FileImage(cubit.profileImage!) as ImageProvider,

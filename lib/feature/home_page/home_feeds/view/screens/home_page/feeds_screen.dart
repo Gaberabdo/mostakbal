@@ -59,7 +59,11 @@ class FeedsScreen extends StatelessWidget {
                         const Spacer(),
                         InkWell(
                           onTap: () {
-                            RoutePage().navigateTo(context, OfferScreen(offerModel: cubit.offerModel,));
+                            RoutePage().navigateTo(
+                                context,
+                                OfferScreen(
+                                  offerModel: cubit.offerModel,
+                                ));
                           },
                           child: Row(
                             children: [
@@ -116,7 +120,11 @@ class FeedsScreen extends StatelessWidget {
                         const Spacer(),
                         InkWell(
                           onTap: () {
-                            RoutePage().navigateTo(context, WatchedScreen(offerModel: cubit.offerModel,));
+                            RoutePage().navigateTo(
+                                context,
+                                WatchedScreen(
+                                  offerModel: cubit.offerModel,
+                                ));
                           },
                           child: Row(
                             children: [
@@ -245,6 +253,7 @@ class FeedsScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
+                        if(cubit.userDataModel != null)
                         Material(
                           borderRadius: BorderRadius.circular(42),
                           color: Colors.white,
@@ -258,14 +267,15 @@ class FeedsScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 CircleAvatar(
-                                    backgroundImage: CachedNetworkImageProvider(
-                                  cubit.settingDataSource!.userDataModel!.image,
-                                )),
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    cubit.userDataModel!.image,
+                                  ),
+                                ),
                                 const SizedBox(
                                   width: 12,
                                 ),
                                 Text(
-                                  'مرحبا , ${cubit.settingDataSource!.userDataModel!.fullName}',
+                                  'مرحبا , ${cubit.userDataModel!.fullName}',
                                   style: FontStyle().textStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700),
@@ -294,11 +304,10 @@ class FeedsScreen extends StatelessWidget {
                     ),
                     InkWell(
                       borderRadius: BorderRadius.circular(12),
-
                       onTap: () {
                         RoutePage().navigateTo(
                           context,
-                           SearchScreen(),
+                          SearchScreen(),
                         );
                       },
                       child: Material(

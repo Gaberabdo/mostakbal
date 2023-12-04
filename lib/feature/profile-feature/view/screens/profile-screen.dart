@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 54.0,
                           backgroundImage: NetworkImage(
-                            cubit.settingDataSource!.userDataModel!.image,
+                            cubit!.userDataModel!.image,
                           ),
                         ),
                       ),
@@ -61,12 +61,12 @@ class ProfileScreen extends StatelessWidget {
                   height: 60,
                 ),
                 Text(
-                  cubit.settingDataSource!.userDataModel!.fullName,
+                  cubit!.userDataModel!.fullName,
                   style: GoogleFonts.tajawal(
                       fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  cubit.settingDataSource!.userDataModel!.email,
+                  cubit!.userDataModel!.email,
                   style: GoogleFonts.tajawal(fontSize: 13, color: Colors.grey),
                 ),
               ],
@@ -108,7 +108,7 @@ class ProfileScreen extends StatelessWidget {
                     IconlyBroken.message,
                     IconlyLight.arrow_left_2,
                     () {
-                      RoutePage().navigateTo(context,(cubit.settingDataSource!.userDataModel!.email != 'adminaccount22@gmail.com') ? AdminChatScreen() :AllUserScreen() );
+                      RoutePage().navigateTo(context,(cubit!.userDataModel!.email != 'adminaccount22@gmail.com') ? AdminChatScreen() :AllUserScreen() );
                     },
                   ),
                   const SizedBox(

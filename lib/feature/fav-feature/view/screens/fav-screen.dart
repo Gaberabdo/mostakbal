@@ -22,8 +22,7 @@ class _FavScreenState extends State<FavScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<FavCubit, FavState>(
       listener: (context, state) {
-
-      },
+        },
       builder: (context, state) {
         var cubit = FavCubit.get(context);
         return Scaffold(
@@ -77,19 +76,19 @@ class _FavScreenState extends State<FavScreen> {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return buildPaddingOtherOffers(
-                        context, cubit.favDataSource.model![index], index);
+                        context, cubit.model![index], index);
                   },
-                  itemCount: cubit.favDataSource.model!.length,
+                  itemCount: cubit.model!.length,
                 )
               : GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     mainAxisExtent: 280.0,
                     maxCrossAxisExtent: 300.0,
                   ),
-                  itemCount: cubit.favDataSource.model!.length,
+                  itemCount: cubit.model!.length,
                   itemBuilder: (context, index) {
                     return buidGrid(
-                        context, cubit.favDataSource.model![index], index);
+                        context, cubit.model![index], index);
                   },
                 ),
         );
@@ -138,7 +137,7 @@ class _FavScreenState extends State<FavScreen> {
                         child: IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            FavCubit.get(context).removeToFav(modelId: FavCubit.get(context).favDataSource.favId[index]);
+                            FavCubit.get(context).removeToFav(modelId: FavCubit.get(context).favId[index]);
                           },
                           icon: Icon(
                             IconlyLight.heart,
@@ -334,7 +333,7 @@ class _FavScreenState extends State<FavScreen> {
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          FavCubit.get(context).removeToFav(modelId: FavCubit.get(context).favDataSource.favId[index]);
+                          FavCubit.get(context).removeToFav(modelId: FavCubit.get(context).favId[index]);
 
                         },
                         icon: Icon(

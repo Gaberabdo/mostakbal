@@ -10,7 +10,11 @@ class CreateUserSuccessState extends AuthState {
   String uid;
   CreateUserSuccessState(this.uid);
 }
-class CreateUserErrorState extends AuthState {}
+class CreateUserErrorState extends AuthState {
+  String e;
+
+  CreateUserErrorState(this.e);
+}
 
 /// todo create user Using Google
 class CreateUserUsingGoogleLoadingState extends AuthState {}
@@ -42,13 +46,21 @@ class CreateUserUsingEmailSuccessState extends AuthState {
   String uid;
   CreateUserUsingEmailSuccessState(this.uid);
 }
-class CreateUserUsingEmailErrorState extends AuthState {}
+class CreateUserUsingEmailErrorState extends AuthState {
+  String e;
+
+  CreateUserUsingEmailErrorState(this.e);
+}
 
 
 /// todo login With verify email
 class VerifyEmailLoadingState extends AuthState {}
 class VerifyEmailSuccessState extends AuthState {}
-class VerifyEmailErrorState extends AuthState {}
+class VerifyEmailErrorState extends AuthState {
+  String e;
+
+  VerifyEmailErrorState(this.e);
+}
 
 /// todo confirm email
 class ConfirmEmailLoadingState extends AuthState {}

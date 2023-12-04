@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mostakbal/core/models/appointment_model/appointment_model.dart';
 import 'package:mostakbal/core/models/auth_model/login_model.dart';
 import 'package:mostakbal/feature/appointment/data_source/appointment_data_source.dart';
 
+import '../../../main.dart';
 import 'appointment_state.dart';
 
 class AppointmentCubit extends Cubit<AppointmentState> {
@@ -77,16 +79,31 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     }
   }
 
+  List<AppointmentModel> addAppoinment = [];
+  List<AppointmentModel> addAppoinmentCancled = [];
+  List<AppointmentModel> addAppoinmentCompleted = [];
+  List<String> ids = [];
+
+  FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
   ///todo get appointment
   Future<void> getAppointment(context) async {
     emit(GetAppointmentLoading());
     try {
-      appointmentDataSource.getAppointment(context).then(
-        (value) {
-          emit(GetAppointmentSuccess());
-          print('geeeeeeeeeeeeeeeeeeeeeeeeeeeeeet sucessssssssss');
-        },
-      );
+      fireStore
+          .collection('users')
+          .doc(uId)
+          .collection('appointment')
+          .snapshots()
+          .listen((value) {
+        addAppoinment = [];
+        for (var element in value.docs) {
+          addAppoinment.add(AppointmentModel.fromJson(element.data()));
+          ids.add(element.id);
+          print(element.data());
+        }
+        emit(GetAppointmentSuccess());
+      });
     } catch (e, s) {
       print(s);
       emit(GetAppointmentError());
@@ -96,26 +113,43 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   ///todo get cancled appoinment
   void getCancledAppointment(context) {
     emit(GetAppointmentLoading());
+    fireStore
+        .collection('users')
+        .doc(uId)
+        .collection('cancledappointment')
+        .snapshots()
+        .listen((value) {
+      addAppoinmentCancled = [];
+      for (var element in value.docs) {
+        addAppoinmentCancled.add(AppointmentModel.fromJson(element.data()));
 
-    appointmentDataSource.getCancledAppointment(context);
-    emit(GetAppointmentSuccess());
-    print(
-        'geeeeeeeeeeeeeeeeeeeeeeeeeeeeeet Cannnnnnnnnnnnnnncled sucessssssssss');
-
-    emit(GetAppointmentError());
+        print(element.data());
+      }
+      emit(GetAppointmentSuccess());
+    }).onError((handleError) {
+      emit(GetAppointmentError());
+    });
   }
 
   ///todo get complete appoinment
   Future<void> getCompleteAppointment(context) async {
     emit(GetAppointmentLoading());
     try {
-      appointmentDataSource.getCompleteAppointment(context).then(
-        (value) {
-          emit(GetAppointmentSuccess());
-          print(
-              'geeeeeeeeeeeeeeeeeeeeeeeeeeeeeet completttttte sucessssssssss');
-        },
-      );
+      fireStore
+          .collection('users')
+          .doc(uId)
+          .collection('compeleteappointment')
+          .snapshots()
+          .listen((value) {
+        addAppoinmentCompleted = [];
+        for (var element in value.docs) {
+          addAppoinmentCompleted.add(AppointmentModel.fromJson(element.data()));
+          print('commmmmmmmmmmmmplete getttttttttttttttttt');
+
+          print(element.data());
+        }
+        emit(GetAppointmentSuccess());
+      });
     } catch (e, s) {
       print(s);
       emit(GetAppointmentError());

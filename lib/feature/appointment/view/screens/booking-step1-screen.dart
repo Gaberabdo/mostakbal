@@ -66,7 +66,8 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
     if (picked != null && picked != _selectedDate2) {
       setState(() {
         _selectedDate2 = picked;
-        daycontroller2.text = "${_selectedDate2!.day}-${_selectedDate2!.month}-${_selectedDate2!.year}";
+        daycontroller2.text =
+            "${_selectedDate2!.day}-${_selectedDate2!.month}-${_selectedDate2!.year}";
       });
     }
   }
@@ -106,8 +107,7 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                   style: GoogleFonts.tajawal(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87
-                  ),
+                      color: Colors.black87),
                 ),
               ),
               body: Padding(
@@ -116,15 +116,16 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                   child: Column(
                     children: [
                       TableCalendar(
-
                         firstDay: DateTime.utc(2010, 10, 16),
                         lastDay: DateTime.utc(2030, 3, 14),
                         focusedDay: _focusedDay,
                         selectedDayPredicate: (day) {
                           return _selectedStartDay != null &&
                               _selectedEndDay != null &&
-                              day.isAfter(_selectedStartDay!.subtract(Duration(days: 1))) &&
-                              day.isBefore(_selectedEndDay!.add(Duration(days: 1)));
+                              day.isAfter(_selectedStartDay!
+                                  .subtract(Duration(days: 1))) &&
+                              day.isBefore(
+                                  _selectedEndDay!.add(Duration(days: 1)));
                         },
                         onDaySelected: (selectedDay, focusedDay) {
                           _selectWeek(selectedDay);
@@ -139,38 +140,37 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(12)
-                        ),
+                            borderRadius: BorderRadius.circular(12)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
                               Row(
-
                                 children: [
-                                  Text('من يوم',style: GoogleFonts.tajawal(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold
-                                  ),),
+                                  Text(
+                                    'من يوم',
+                                    style: GoogleFonts.tajawal(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                   const SizedBox(
                                     width: 180,
                                   ),
-                                  Text('الي يوم',
+                                  Text(
+                                    'الي يوم',
                                     style: GoogleFonts.tajawal(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.bold
-                                    ),),
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ],
                               ),
                               Row(
-
                                 children: [
                                   Expanded(
                                     child: TextFormField(
                                       cursorColor: Colors.grey,
                                       controller: daycontroller1,
                                       keyboardType: TextInputType.phone,
-
                                       validator: (String? value) {
                                         if (value!.isEmpty) {
                                           return 'من فضلك ادخل اليوم';
@@ -178,12 +178,12 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                         return null;
                                       },
                                       onTap: () {
-                                        FocusScope.of(context).requestFocus(new FocusNode()); // Hide keyboard
+                                        FocusScope.of(context).requestFocus(
+                                            new FocusNode()); // Hide keyboard
                                         _selectDateTime1(context);
                                       },
                                       keyboardAppearance: Brightness.dark,
                                       decoration: InputDecoration(
-
                                           suffixIcon: IconButton(
                                             onPressed: () {
                                               // cubit.changePasswordVisibility();
@@ -193,16 +193,17 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                               color: Colors.grey,
                                             ),
                                           ),
-
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: .2, color: Colors.grey),
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: 1, color: Colors.blue),
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           )),
                                     ),
                                   ),
@@ -214,7 +215,6 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                       cursorColor: Colors.grey,
                                       controller: daycontroller2,
                                       keyboardType: TextInputType.phone,
-
                                       validator: (String? value) {
                                         if (value!.isEmpty) {
                                           return 'من فضلك ادخل اليوم';
@@ -222,12 +222,12 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                         return null;
                                       },
                                       onTap: () {
-                                        FocusScope.of(context).requestFocus(new FocusNode()); // Hide keyboard
+                                        FocusScope.of(context).requestFocus(
+                                            new FocusNode()); // Hide keyboard
                                         _selectDateTime2(context);
                                       },
                                       keyboardAppearance: Brightness.dark,
                                       decoration: InputDecoration(
-
                                           suffixIcon: IconButton(
                                             onPressed: () {
                                               // cubit.changePasswordVisibility();
@@ -237,16 +237,17 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                               color: Colors.grey,
                                             ),
                                           ),
-
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: .2, color: Colors.grey),
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: 1, color: Colors.blue),
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           )),
                                     ),
                                   ),
@@ -256,31 +257,31 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                 height: 20,
                               ),
                               Row(
-
                                 children: [
-                                  Text(' عدد الكبار',style: GoogleFonts.tajawal(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold
-                                  ),),
+                                  Text(
+                                    ' عدد الكبار',
+                                    style: GoogleFonts.tajawal(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                   const SizedBox(
                                     width: 180,
                                   ),
-                                  Text(' عدد الصغار',
+                                  Text(
+                                    ' عدد الصغار',
                                     style: GoogleFonts.tajawal(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.bold
-                                    ),),
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ],
                               ),
                               Row(
-
                                 children: [
                                   Expanded(
                                     child: TextFormField(
                                       cursorColor: Colors.grey,
                                       controller: daycontroller3,
                                       keyboardType: TextInputType.phone,
-
                                       validator: (String? value) {
                                         if (value!.isEmpty) {
                                           return 'من فضلك ادخل العدد';
@@ -289,7 +290,6 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                       },
                                       keyboardAppearance: Brightness.dark,
                                       decoration: InputDecoration(
-
                                           suffixIcon: IconButton(
                                             onPressed: () {
                                               // cubit.changePasswordVisibility();
@@ -299,16 +299,17 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                               color: Colors.grey,
                                             ),
                                           ),
-
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: .2, color: Colors.grey),
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: 1, color: Colors.blue),
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           )),
                                     ),
                                   ),
@@ -320,7 +321,6 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                       cursorColor: Colors.grey,
                                       controller: daycontroller4,
                                       keyboardType: TextInputType.phone,
-
                                       validator: (String? value) {
                                         if (value!.isEmpty) {
                                           return 'من فضلك ادخل العدد';
@@ -329,7 +329,6 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                       },
                                       keyboardAppearance: Brightness.dark,
                                       decoration: InputDecoration(
-
                                           suffixIcon: IconButton(
                                             onPressed: () {
                                               // cubit.changePasswordVisibility();
@@ -339,16 +338,17 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                                               color: Colors.grey,
                                             ),
                                           ),
-
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: .2, color: Colors.grey),
-                                            borderRadius: BorderRadius.circular(20),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 width: 1, color: Colors.blue),
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           )),
                                     ),
                                   ),
@@ -364,19 +364,18 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('المبلغ المطلوب',
+                          Text(
+                            'المبلغ المطلوب',
                             style: GoogleFonts.tajawal(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14
-                            ),),
-                          Text('2400جنيه',
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
+                          Text(
+                            '2400جنيه',
                             style: GoogleFonts.tajawal(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
-                                color: Colors.blue
-                            ),),
-
-
+                                color: Colors.blue),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -390,29 +389,23 @@ class _BookingStep1ScreenState extends State<BookingStep1Screen> {
                             borderRadius: BorderRadius.circular(12)),
                         child: MaterialButton(
                           onPressed: () {
-
                             if (formKey.currentState!.validate()) {
                               AppointmentModel model = AppointmentModel(
-                                fullName:  SettingCubit.get(context)
-                                    .settingDataSource
+                                fullName: SettingCubit.get(context)
                                     .userDataModel!
                                     .fullName,
                                 hotialName: widget.hotialName!,
                                 hotialImage: widget.hotialImage!,
                                 email: SettingCubit.get(context)
-                                    .settingDataSource
                                     .userDataModel!
                                     .email,
-                                phone:  SettingCubit.get(context)
-                                    .settingDataSource
+                                phone: SettingCubit.get(context)
                                     .userDataModel!
                                     .phone,
-                                birthdate:  SettingCubit.get(context)
-                                    .settingDataSource
+                                birthdate: SettingCubit.get(context)
                                     .userDataModel!
                                     .birthdate,
-                                userName:  SettingCubit.get(context)
-                                    .settingDataSource
+                                userName: SettingCubit.get(context)
                                     .userDataModel!
                                     .fullName,
                                 numOfAdults: int.parse(daycontroller4.text),

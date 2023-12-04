@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -35,13 +36,19 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   List<BannarModel> bannerModel = [];
+  FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   ///todo get bannar
   void getBannar() async {
     emit(LoadingGetBannerState());
     try {
-      homeDataSource.getBannar();
-      bannerModel = homeDataSource.bannerModel!;
+      fireStore.collection('bannar').get().then(
+        (value) {
+          for (var element in value.docs) {
+            bannerModel.add(BannarModel.fromJson(element.data()));
+          }
+        },
+      );
       emit(SuccessGetBannerState());
     } catch (e, s) {
       print(s);
@@ -56,10 +63,16 @@ class HomeCubit extends Cubit<HomeState> {
   void getForYouData() async {
     emit(LoadingGetForYouDataState());
     try {
-      homeDataSource.getForYouData();
-      forYouModel = homeDataSource.forYouModel!;
-      forYouIdModel = homeDataSource.forYouIdModel;
-      emit(SuccessGetForYouDataState());
+      fireStore.collection('forYou').get().then(
+        (value) {
+          for (var element in value.docs) {
+            forYouIdModel.add(element.id);
+            forYouModel.add(TripModel.fromJson(element.data()));
+          }
+
+          emit(SuccessGetForYouDataState());
+        },
+      );
     } catch (e, s) {
       print(s);
       emit(ErrorGetForYouDataState());
@@ -72,9 +85,15 @@ class HomeCubit extends Cubit<HomeState> {
   void getDomesticTourism() async {
     emit(LoadingGetDomesticTourismState());
     try {
-      homeDataSource.getDomesticTourism();
-      domesticTourismModel = homeDataSource.domesticTourismModel!;
-      emit(SuccessGetDomesticTourismState());
+      fireStore.collection('domesticTourism').get().then(
+            (value) {
+          for (var element in value.docs) {
+            domesticTourismModel.add(TourismModel.fromJson(element.data()));
+          }
+          emit(SuccessGetDomesticTourismState());
+
+            },
+      );
     } catch (e, s) {
       print(s);
       emit(ErrorGetDomesticTourismSState());
@@ -97,16 +116,26 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   List<TourismModel> offerModel = [];
+  List<String> offerModelId =[];
 
   ///todo get for you data
   void getOffer() async {
     emit(LoadingGetDomesticTourismState());
     try {
+
+      fireStore.collection('offers').get().then(
+            (value) {
+          for (var element in value.docs) {
+            offerModelId.add(element.id);
+            offerModel.add(TourismModel.fromJson(element.data()));
+            print(offerModel);
+          }
+        },
+      );
       homeDataSource.getOffer().then((value) {
         offerModel = homeDataSource.offerModel;
         emit(SuccessGetDomesticTourismState());
       });
-
     } catch (e, s) {
       print(s);
       emit(ErrorGetDomesticTourismSState());

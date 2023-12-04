@@ -28,12 +28,10 @@ class AuthDataSource {
     required String fullName,
     required String birthdate,
   }) async {
-    auth
-        .createUserWithEmailAndPassword(
+    auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
-    )
-        .then(
+    ).then(
       (value) {
         userCreate(
           email: email,
@@ -63,6 +61,8 @@ class AuthDataSource {
     UserDataModel model = UserDataModel(
       fullName: fullName,
       birthdate: birthdate,
+      phoneVir: false,
+
       email: email,
       phone: phone,
       uId: uid,
@@ -135,7 +135,9 @@ class AuthDataSource {
 
   /// todo login With verify email
   Future<void> verifyEmail() async {
-    await auth.currentUser!.sendEmailVerification();
+    await auth.currentUser!.sendEmailVerification().catchError((onError){
+      print(onError.message.toString());
+    });
   }
 
   /// todo confirm email
